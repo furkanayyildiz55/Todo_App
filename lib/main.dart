@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo_app/data/local_stroage.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/pages/home_page.dart';
+
+final locator = GetIt.instance; //9 10 11 12 get it paketi kullanımı ile ilgili
+void setup() {
+  locator.registerSingleton<LocalStorage>(HiveLocalStroage());
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +20,7 @@ Future<void> main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(TaskAdapter());
-
+  setup(); //get_it
   runApp(const MyApp());
 }
 

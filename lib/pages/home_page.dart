@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:todo_app/data/local_stroage.dart';
+import 'package:todo_app/main.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/widgets/task_list_item.dart';
 
@@ -12,12 +14,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List<Task> _allTasks;
+  late LocalStorage _localStorage;
 
   @override
   void initState() {
     super.initState();
+    _localStorage = locator<LocalStorage>();
     _allTasks = <Task>[];
     _allTasks.add(Task.create(name: "deneme Task", createdAt: DateTime.now()));
+    _getAllTaskDb();
   }
 
   @override
@@ -69,6 +74,7 @@ class _HomePageState extends State<HomePage> {
                   key: Key(_oAnkiListeElemani.id),
                   onDismissed: (direction) {
                     _allTasks.removeAt(index);
+                    _localStorage.deleteTask(task: _oAnkiListeElemani);
                     setState(() {});
                   },
                   child: TaskItem(
@@ -104,10 +110,11 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).pop();
                 if (value.length > 3) {
                   DatePicker.showTimePicker(context, showSecondsColumn: false,
-                      onConfirm: (time) {
+                      onConfirm: (time) async {
                     var yeniEklenecekGorev =
                         Task.create(name: value, createdAt: time);
                     _allTasks.add(yeniEklenecekGorev);
+                    await _localStorage.addTask(task: yeniEklenecekGorev);
                     setState(() {});
                   });
                 }
@@ -117,5 +124,10 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  void _getAllTaskDb() async {
+    _allTasks = await _localStorage.getAllTask();
+    setState(() {});
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/data/local_stroage.dart';
+import 'package:todo_app/main.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:intl/intl.dart';
 
@@ -12,11 +14,13 @@ class TaskItem extends StatefulWidget {
 
 class _TaskItemState extends State<TaskItem> {
   TextEditingController _taskNameController = TextEditingController();
+  late LocalStorage _localStorage;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _localStorage = locator<LocalStorage>();
     _taskNameController.text = widget.task.name;
   }
 
@@ -35,6 +39,7 @@ class _TaskItemState extends State<TaskItem> {
         leading: GestureDetector(
           onTap: () {
             widget.task.isCompleted = !widget.task.isCompleted;
+            _localStorage.updateTask(task: widget.task);
             setState(() {});
           },
           child: Container(
@@ -62,6 +67,7 @@ class _TaskItemState extends State<TaskItem> {
                 onSubmitted: (value) {
                   if (value.length > 3) {
                     widget.task.name = value;
+                    _localStorage.updateTask(task: widget.task);
                   }
                 },
               ),
