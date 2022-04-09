@@ -3,6 +3,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todo_app/data/local_stroage.dart';
 import 'package:todo_app/main.dart';
 import 'package:todo_app/models/task_model.dart';
+import 'package:todo_app/widgets/custom_search_delegate.dart';
 import 'package:todo_app/widgets/task_list_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,7 +43,9 @@ class _HomePageState extends State<HomePage> {
         centerTitle: false,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _onSearchPage();
+            },
             icon: const Icon(Icons.search),
           ),
           IconButton(
@@ -92,6 +95,7 @@ class _HomePageState extends State<HomePage> {
 
   void _showAddTaskBottomSheet(BuildContext context) {
     showModalBottomSheet(
+      //showModalBottomSheet alttan açılır pencere
       context: context,
       builder: (context) {
         return Container(
@@ -102,18 +106,23 @@ class _HomePageState extends State<HomePage> {
           width: MediaQuery.of(context).size.width,
           child: ListTile(
             title: TextField(
-              autofocus: true,
+              autofocus: true, //klavye direkmen açılsın ve yazılabilsin diye
               style: const TextStyle(fontSize: 20),
               decoration: const InputDecoration(
                   hintText: "Görev Nedir ?", border: InputBorder.none),
               onSubmitted: (value) {
-                Navigator.of(context).pop();
+                Navigator.of(context)
+                    .pop(); //alttan açılı pencereyi(showModalBottomSheet) kapatacak
                 if (value.length > 3) {
+                  //TextFielde girilen metin 3 karakterden büyük ise
+                  //showTimePicker ekranı görünecek
+                  //bu ekrande saniye çubuğu kalatıldı
+                  //onConfirmde bulunan time bize seçilen zamanı vermekte
                   DatePicker.showTimePicker(context, showSecondsColumn: false,
                       onConfirm: (time) async {
                     var yeniEklenecekGorev =
                         Task.create(name: value, createdAt: time);
-                    _allTasks.add(yeniEklenecekGorev);
+                    _allTasks.insert(0, yeniEklenecekGorev);
                     await _localStorage.addTask(task: yeniEklenecekGorev);
                     setState(() {});
                   });
@@ -129,5 +138,10 @@ class _HomePageState extends State<HomePage> {
   void _getAllTaskDb() async {
     _allTasks = await _localStorage.getAllTask();
     setState(() {});
+  }
+
+  void _onSearchPage() {
+    showSearch(
+        context: context, delegate: CustomSearchDelegate(allTasks: _allTasks));
   }
 }

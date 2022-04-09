@@ -20,7 +20,7 @@ class _TaskItemState extends State<TaskItem> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _localStorage = locator<LocalStorage>();
+    _localStorage = locator<LocalStorage>(); //get_it
     _taskNameController.text = widget.task.name;
   }
 

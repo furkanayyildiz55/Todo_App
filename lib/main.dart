@@ -7,20 +7,31 @@ import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/pages/home_page.dart';
 
 final locator = GetIt.instance; //9 10 11 12 get it paketi kullanımı ile ilgili
-void setup() {
+void setupGetIt() {
   locator.registerSingleton<LocalStorage>(HiveLocalStroage());
+}
+
+Future<void> setupHive() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
+  Box<Task> taskBox = await Hive.openBox("tasks");
+
+  //TaskBoz içini gezerek aynı günde olmayan tasklar siliniyor
+  taskBox.values.forEach((task) {
+    if (task.createdAt.day != DateTime.now().day) {
+      taskBox.delete(task.id);
+    }
+  });
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   ); // STatusBar Yani en üstteki bilgirim menülerinin olduğu barın rengi değiştirildi
 
-  await Hive.initFlutter();
-  Hive.registerAdapter(TaskAdapter());
-  setup(); //get_it
+  await setupHive();
+  setupGetIt(); //get_it
   runApp(const MyApp());
 }
 
