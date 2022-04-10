@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -16,7 +17,7 @@ Future<void> setupHive() async {
   Hive.registerAdapter(TaskAdapter());
   Box<Task> taskBox = await Hive.openBox("tasks");
 
-  //TaskBoz içini gezerek aynı günde olmayan tasklar siliniyor
+  //TaskBox içini gezerek aynı günde olmayan tasklar siliniyor
   taskBox.values.forEach((task) {
     if (task.createdAt.day != DateTime.now().day) {
       taskBox.delete(task.id);
@@ -26,13 +27,22 @@ Future<void> setupHive() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   ); // STatusBar Yani en üstteki bilgirim menülerinin olduğu barın rengi değiştirildi
 
   await setupHive();
   setupGetIt(); //get_it
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+        supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
+        path:
+            'assets/translations', // <-- change the path of the translation files
+        fallbackLocale: const Locale(
+            'en', 'US'), //herhangi ssorunda ingilizceyi kullancak   s
+        child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -42,6 +52,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates, //dil
+      supportedLocales: context.supportedLocales, //dil
+      locale:
+          context.deviceLocale, //dil  //uygulama cihazın dili ile başlayacak
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(

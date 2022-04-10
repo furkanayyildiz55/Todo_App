@@ -1,6 +1,8 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todo_app/data/local_stroage.dart';
+import 'package:todo_app/helper/translation_helper.dart';
 import 'package:todo_app/main.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/widgets/custom_search_delegate.dart';
@@ -36,9 +38,9 @@ class _HomePageState extends State<HomePage> {
             _showAddTaskBottomSheet(context);
           },
           child: const Text(
-            "Bugün Neler Yapacaksın?",
+            "title",
             style: TextStyle(color: Colors.black),
-          ),
+          ).tr(),
         ),
         centerTitle: false,
         actions: [
@@ -63,15 +65,15 @@ class _HomePageState extends State<HomePage> {
                 return Dismissible(
                   background: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      SizedBox(
+                    children: [
+                      const SizedBox(
                         width: 15,
                       ),
-                      Icon(Icons.delete, color: Colors.red),
-                      Text(
-                        "Sil",
+                      const Icon(Icons.delete, color: Colors.red),
+                      const Text(
+                        "remove_task",
                         style: TextStyle(color: Colors.red),
-                      )
+                      ).tr()
                     ],
                   ),
                   key: Key(_oAnkiListeElemani.id),
@@ -87,8 +89,8 @@ class _HomePageState extends State<HomePage> {
               },
               itemCount: _allTasks.length,
             )
-          : const Center(
-              child: Text("Görev Yok "),
+          : Center(
+              child: const Text("empty_task_list").tr(),
             ),
     );
   }
@@ -108,8 +110,8 @@ class _HomePageState extends State<HomePage> {
             title: TextField(
               autofocus: true, //klavye direkmen açılsın ve yazılabilsin diye
               style: const TextStyle(fontSize: 20),
-              decoration: const InputDecoration(
-                  hintText: "Görev Nedir ?", border: InputBorder.none),
+              decoration: InputDecoration(
+                  hintText: "add_task".tr(), border: InputBorder.none),
               onSubmitted: (value) {
                 Navigator.of(context)
                     .pop(); //alttan açılı pencereyi(showModalBottomSheet) kapatacak
@@ -118,7 +120,10 @@ class _HomePageState extends State<HomePage> {
                   //showTimePicker ekranı görünecek
                   //bu ekrande saniye çubuğu kalatıldı
                   //onConfirmde bulunan time bize seçilen zamanı vermekte
-                  DatePicker.showTimePicker(context, showSecondsColumn: false,
+                  DatePicker.showTimePicker(context,
+                      showSecondsColumn: false,
+                      locale: TranslationHelper.getDeviceLocal(context),
+                      //yapının dili otomatik olarak değişecek
                       onConfirm: (time) async {
                     var yeniEklenecekGorev =
                         Task.create(name: value, createdAt: time);
@@ -140,8 +145,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  void _onSearchPage() {
-    showSearch(
+  void _onSearchPage() async {
+    await showSearch(
         context: context, delegate: CustomSearchDelegate(allTasks: _allTasks));
+
+    _getAllTaskDb();
   }
 }

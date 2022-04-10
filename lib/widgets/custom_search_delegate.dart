@@ -1,6 +1,10 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/data/local_stroage.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/widgets/task_list_item.dart';
+
+import '../main.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   final List<Task> allTasks;
@@ -24,7 +28,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget? buildLeading(BuildContext context) {
-    //yazma ekranında solada kalan kısım
+    //yazma ekranında solada kalan kısım geri gel kısmı
     return GestureDetector(
       onTap: () {
         close(context, null);
@@ -44,49 +48,44 @@ class CustomSearchDelegate extends SearchDelegate {
         .where(
             (gorev) => gorev.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    return filteredList.length > 0
+    return filteredList.isNotEmpty
         ? ListView.builder(
+            itemCount: filteredList.length,
             itemBuilder: (context, index) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  var _oAnkiListeElemani = filteredList[index];
-                  return Dismissible(
-                    background: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Icon(Icons.delete, color: Colors.red),
-                        Text(
-                          "Sil",
-                          style: TextStyle(color: Colors.red),
-                        )
-                      ],
+              var _oAnkiListeElemani = filteredList[index];
+              return Dismissible(
+                background: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      width: 15,
                     ),
-                    key: Key(_oAnkiListeElemani.id),
-                    onDismissed: (direction) {
-                      filteredList.removeAt(index);
-                      // _localStorage.deleteTask(task: _oAnkiListeElemani);
-                    },
-                    child: TaskItem(
-                      task: _oAnkiListeElemani,
-                    ),
-                  );
+                    const Icon(Icons.delete, color: Colors.red),
+                    const Text(
+                      "remove_task",
+                      style: TextStyle(color: Colors.red),
+                    ).tr()
+                  ],
+                ),
+                key: Key(_oAnkiListeElemani.id),
+                onDismissed: (direction) async {
+                  filteredList.removeAt(index);
+                  await locator<LocalStorage>()
+                      .deleteTask(task: _oAnkiListeElemani);
                 },
-                itemCount: filteredList.length,
+                child: TaskItem(
+                  task: _oAnkiListeElemani,
+                ),
               );
             },
-            itemCount: filteredList.length)
-        : const Center(
-            child: Text("Arama Sonucu Yok"),
+          )
+        :  Center(
+            child: Text("search_not_found").tr(),
           );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    //arama metni yazılırken gösterilecek kısımlar
-    // TODO: implement buildSuggestions
-    throw UnimplementedError();
+    return Container();
   }
 }
