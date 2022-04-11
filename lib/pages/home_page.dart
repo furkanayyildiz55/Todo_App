@@ -114,14 +114,13 @@ class _HomePageState extends State<HomePage> {
                   hintText: "add_task".tr(), border: InputBorder.none),
               onSubmitted: (value) {
                 Navigator.of(context)
-                    .pop(); //alttan açılı pencereyi(showModalBottomSheet) kapatacak
+                    .pop(); //alttan açılı pencereyi(showModalBottomSheet) kapatacak hjhgkgjhk   khkjh kjh k kjh kjh
                 if (value.length > 3) {
                   //TextFielde girilen metin 3 karakterden büyük ise
                   //showTimePicker ekranı görünecek
                   //bu ekrande saniye çubuğu kalatıldı
                   //onConfirmde bulunan time bize seçilen zamanı vermekte
-                  DatePicker.showTimePicker(context,
-                      showSecondsColumn: false,
+                  DatePicker.showTimePicker(context,showSecondsColumn: false,
                       locale: TranslationHelper.getDeviceLocal(context),
                       //yapının dili otomatik olarak değişecek
                       onConfirm: (time) async {
