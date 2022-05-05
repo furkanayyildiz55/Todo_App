@@ -9,7 +9,10 @@ Bu uygulama **gün içinde yapılacak olan işlerin unutulmaması, kaydedilmesi 
 4. Uygulamadada TR-EN dil desteği bulunmakta. Uygulama dili telefonun varsayılan diline göre değişmekte.
 
 # Uygulama Görselleri
-<img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/1.jpg" width="200">
+<p align="center">
+ <img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/1.jpg" width="200">
+</p>
+
 <img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/2.jpg" width="200">
 <img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/3.jpg" width="200">
 <img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/4.jpg" width="200">
