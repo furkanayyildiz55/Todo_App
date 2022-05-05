@@ -1,16 +1,17 @@
-# todo_app
+# Todo App - Yapılacaklar Uygulaması
 
-A new Flutter project.
+Bu uygulama **gün içinde yapılacak olan işlerin unutulmaması, kaydedilmesi amacı ile amacı ile yapılmıştır.** 
 
-## Getting Started
+# Uygulama Özellikleri
+1. Veriler telefonun kendi hafızasında saklanmakta.
+2. Veriler bir gün sonra otomtik silinmekte.
+3. Verilere sonradan silme veya düzenleme işlemi yapılabilmekte.
+4. Uygulamadada TR-EN dil desteği bulunmakta. Uygulama dili telefonun varsayılan diline göre değişmekte.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Uygulama Görselleri
+<img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/1.jpg" width="2000">
+<img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/2.jpg" width="2000">
+<img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/3.jpg" width="2000">
+<img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/4.jpg" width="2000">
+<img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/5.jpg" width="2000">
+<img src="https://github.com/furkanayyildiz55/Todo_App/blob/master/images/6.jpg" width="2000">
