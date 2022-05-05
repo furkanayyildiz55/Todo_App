@@ -4,9 +4,10 @@ Bu uygulama **gün içinde yapılacak olan işlerin unutulmaması, kaydedilmesi 
 
 # Uygulama Özellikleri
 1. Veriler telefonun kendi hafızasında saklanmakta.
-2. Veriler bir gün sonra otomtik silinmekte.
-3. Verilere sonradan silme veya düzenleme işlemi yapılabilmekte.
-4. Uygulamadada TR-EN dil desteği bulunmakta. Uygulama dili telefonun varsayılan diline göre değişmekte.
+2. YApılacaklar bir gün sonra otomtik silinmekte.
+3. Yapılacaklar listesinde sonradan silme veya düzenleme işlemi yapılabilmekte.
+4. Yapılacaklar arama sayfası bulunmakta.
+5. Uygulamadada TR-EN dil desteği bulunmakta. Uygulama dili telefonun varsayılan diline göre değişmekte.
 
 # Uygulama Görselleri
 <p align="center">
